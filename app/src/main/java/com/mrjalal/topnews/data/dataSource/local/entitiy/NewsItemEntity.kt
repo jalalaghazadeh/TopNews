@@ -8,16 +8,16 @@ import com.mrjalal.topnews.domain.repository.util.NewsEntity
 @Entity(tableName = "news_items")
 data class NewsItemEntity (
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    val author: String,
-    val content: String,
-    val description: String,
+    val author: String?,
+    val content: String?,
+    val description: String?,
     val publishedAt: String,
-    val source: String,
-    val title: String,
-    val url: String,
-    val urlToImage: String
+    val source: String?,
+    val title: String?,
+    val url: String?,
+    val urlToImage: String?
 ): NewsEntity {
     override fun toUiModel() = NewsUiModel.NewsItemUiModel(
-        author, content, description, publishedAt, source, title, url, urlToImage
+        id, author, content, description, publishedAt, source, title, url, urlToImage
     )
 }

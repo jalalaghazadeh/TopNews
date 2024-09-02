@@ -6,7 +6,9 @@ import com.mrjalal.topnews.data.dataSource.local.entitiy.NewsItemEntity
 import com.mrjalal.topnews.data.dataSource.remote.NewsRemoteDataSource
 import com.mrjalal.topnews.data.dataSource.remote.model.NewsDto
 import com.mrjalal.topnews.domain.repository.NewsRepository
+import com.mrjalal.topnews.domain.repository.model.NewsUiModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -15,12 +17,12 @@ class NewsRepositoryImpl @Inject constructor(
     private val remoteDataSource: NewsRemoteDataSource,
     private val newsDao: NewsDao
 ) : NewsRepository {
-    override fun getNewsByQuery(queryName: String): Flow<List<NewsItemEntity>> {
-        return newsDao.getNewsByQuery(queryName)
+    override fun getNewsByQuery(queryName: String): Flow<List<NewsUiModel.NewsItemUiModel>> {
+        return newsDao.getNewsByQuery(queryName).map { list -> list.map { it.toUiModel() } }
     }
 
-    override fun getNews(page: Int, pageSize: Int): Flow<List<NewsItemEntity>> {
-        return newsDao.getNews(page, pageSize)
+    override fun getNews(page: Int, pageSize: Int): Flow<List<NewsUiModel.NewsItemUiModel>> {
+        return newsDao.getNews(page, pageSize).map { list -> list.map { it.toUiModel() } }
     }
 
     override suspend fun refreshNews() {
@@ -50,8 +52,15 @@ class NewsRepositoryImpl @Inject constructor(
 
                 // Handle the API response
                 response.onSuccess { news ->
+                    // Get titles of existing news articles from the database
+                    val existingTitles = newsDao.getAllTitles()
+
+                    // Filter out articles that are already in the database based on title
+                    val newArticles = news.articles.filter { article ->
+                        article.title !in existingTitles
+                    }
                     // Insert the news articles into the database
-                    newsDao.insertAll(news.articles.map { it.toEntity() })
+                    newsDao.insertAll(newArticles.map { it.toEntity() })
 
                     // Check if there are more pages to fetch
                     hasMorePages = news.totalResults > currentPage*PAGE_SIZE

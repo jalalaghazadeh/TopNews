@@ -11,21 +11,21 @@ data class NewsDto(
     val totalResults: Int
 ) {
     data class NewsItemDto(
-        val author: String,
-        val content: String,
-        val description: String,
+        val author: String?,
+        val content: String?,
+        val description: String?,
         val publishedAt: String,
-        val source: NewsSourceDto,
-        val title: String,
-        val url: String,
-        val urlToImage: String
+        val source: NewsSourceDto?,
+        val title: String?,
+        val url: String?,
+        val urlToImage: String?
     ): Dto {
         override fun toEntity() = NewsItemEntity(
             author = author,
             content = content,
             description = description,
             publishedAt = publishedAt,
-            source = source.name,
+            source = source?.name,
             title = title,
             url = url,
             urlToImage = urlToImage
@@ -33,7 +33,7 @@ data class NewsDto(
     }
 
     data class NewsSourceDto(
-        val id: String,
+        val id: String?,
         val name: String
     )
 }
