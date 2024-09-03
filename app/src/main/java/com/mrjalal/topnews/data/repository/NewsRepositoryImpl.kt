@@ -1,10 +1,12 @@
 package com.mrjalal.topnews.data.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.mrjalal.topnews.data.dataSource.local.NewsDao
-import com.mrjalal.topnews.data.dataSource.local.entitiy.NewsItemEntity
 import com.mrjalal.topnews.data.dataSource.remote.NewsRemoteDataSource
-import com.mrjalal.topnews.data.dataSource.remote.model.NewsDto
 import com.mrjalal.topnews.domain.repository.NewsRepository
 import com.mrjalal.topnews.domain.repository.model.NewsUiModel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +25,18 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun getNews(page: Int, pageSize: Int): Flow<List<NewsUiModel.NewsItemUiModel>> {
         return newsDao.getNews(page, pageSize).map { list -> list.map { it.toUiModel() } }
+    }
+
+    override fun getNews(): Flow<PagingData<NewsUiModel.NewsItemUiModel>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = LOCAL_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { newsDao.getNewsPagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toUiModel() }
+        }
     }
 
     override suspend fun refreshNews() {
@@ -63,7 +77,7 @@ class NewsRepositoryImpl @Inject constructor(
                     newsDao.insertAll(newArticles.map { it.toEntity() })
 
                     // Check if there are more pages to fetch
-                    hasMorePages = news.totalResults > currentPage*PAGE_SIZE
+                    hasMorePages = news.totalResults > currentPage*REMOTE_PAGE_SIZE
                     currentPage++
                 }.onFailure {
                     // Stop fetching pages if there's an error
@@ -75,7 +89,8 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     companion object{
-        const val PAGE_SIZE = 100 // default pageSize in NewsApi is 100
+        const val REMOTE_PAGE_SIZE = 100 // default pageSize in NewsApi is 100
+        const val LOCAL_PAGE_SIZE = 20 // pageSize for delivering data to UI
         const val TAG = "oio"
     }
 }

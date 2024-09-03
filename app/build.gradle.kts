@@ -112,6 +112,14 @@ dependencies {
     api("io.coil-kt:coil-compose:2.6.0")
     api("androidx.annotation:annotation:1.8.0")
     implementation("io.coil-kt:coil-svg:2.5.0")
+
+    // Paging 3
+    implementation("androidx.paging:paging-runtime-ktx:3.3.2")
+    implementation ("androidx.paging:paging-compose:3.3.2")
+
+    // Shimmer
+    implementation("com.valentinilk.shimmer:compose-shimmer:1.0.5")
+
 }
 
 kapt {

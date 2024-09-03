@@ -1,5 +1,6 @@
 package com.mrjalal.topnews.data.dataSource.local
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 interface NewsDao {
     @Query("SELECT * FROM news_items ORDER BY publishedAt DESC LIMIT :pageSize OFFSET :page * :pageSize")
     fun getNews(page: Int, pageSize: Int): Flow<List<NewsItemEntity>>
+
+    @Query("SELECT * FROM news_items ORDER BY publishedAt DESC")
+    fun getNewsPagingSource(): PagingSource<Int, NewsItemEntity>
 
     @Query("SELECT * FROM news_items " +
             "WHERE title LIKE '%' || :queryName || '%' OR description LIKE '%' || :queryName || '%' OR content LIKE '%' || :queryName || '%' " +
