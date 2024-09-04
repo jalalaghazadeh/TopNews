@@ -10,6 +10,7 @@ import com.mrjalal.topnews.data.dataSource.remote.NewsRemoteDataSource
 import com.mrjalal.topnews.domain.repository.NewsRepository
 import com.mrjalal.topnews.domain.repository.model.NewsUiModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -21,6 +22,17 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
     override fun getNewsByQuery(queryName: String): Flow<List<NewsUiModel.NewsItemUiModel>> {
         return newsDao.getNewsByQuery(queryName).map { list -> list.map { it.toUiModel() } }
+    }
+
+    override suspend fun getNewsById(id: String): Flow<NewsUiModel.NewsItemUiModel> {
+        val res =  newsDao.getNewsById(id).map { it.toUiModel() }
+        Log.d(TAG, "getNewsById: $res")
+
+//        res.collectLatest {
+//            Log.d(TAG, "getNewsById:> res.collectLatest: $it")
+//        }
+
+        return res
     }
 
     override fun getNews(page: Int, pageSize: Int): Flow<List<NewsUiModel.NewsItemUiModel>> {

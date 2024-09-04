@@ -10,6 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.mrjalal.topnews.presentation.home.screen.navigation.HOME_ROUTE
 import com.mrjalal.topnews.presentation.home.screen.navigation.homeScreen
+import com.mrjalal.topnews.presentation.newsDetail.screen.navigation.navigateToNewsDetail
+import com.mrjalal.topnews.presentation.newsDetail.screen.navigation.newsDetailScreen
 
 @Composable
 fun TopNewsApp() {
@@ -47,8 +49,18 @@ fun NavigationGraph(navController: NavHostController) {
                 animationSpec = tween(150)
             )
         },
-        modifier = Modifier.safeDrawingPadding()
+//        modifier = Modifier.safeDrawingPadding()
     ) {
-        homeScreen()
+        val onBack: () -> Unit = { navController.navigateUp() }
+        val onNavigateToNewsDetail: (String) -> Unit = {
+            navController.navigateToNewsDetail(it)
+        }
+
+        homeScreen(
+            onNavigateToNewsDetail
+        )
+        newsDetailScreen(
+            onBack
+        )
     }
 }

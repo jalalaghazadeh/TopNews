@@ -1,8 +1,10 @@
 package com.mrjalal.topnews.presentation.home.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -10,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -28,18 +29,27 @@ import com.mrjalal.topnews.presentation.common.component.TopNewsShimmerLoading
 
 @Composable
 fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToNewsDetail: (String) -> Unit
 ) {
     TopNewsStatusBar()
 
     val (state, effect, dispatcher) = use(viewModel)
     val allNews = viewModel.allNews.collectAsLazyPagingItems()
 
-    HomeScreen(allNews)
+    Box(modifier = Modifier.safeDrawingPadding()){
+        HomeScreen(
+            allNews = allNews,
+            onNavigateToNewsDetail = onNavigateToNewsDetail
+        )
+    }
 }
 
 @Composable
-fun HomeScreen(allNews: LazyPagingItems<NewsUiModel.NewsItemUiModel>) {
+fun HomeScreen(
+    allNews: LazyPagingItems<NewsUiModel.NewsItemUiModel>,
+    onNavigateToNewsDetail: (String) -> Unit
+    ) {
     Scaffold(
         topBar = {
             TopNewsTopBar(
@@ -60,7 +70,10 @@ fun HomeScreen(allNews: LazyPagingItems<NewsUiModel.NewsItemUiModel>) {
                 count = allNews.itemCount,
                 key = { "${allNews[it]?.id}" }
             ) { index ->
-                NewsItem(allNews[index]!!)
+                NewsItem(
+                    item = allNews[index]!!,
+                    onItemClick = onNavigateToNewsDetail
+                )
                 if (index < allNews.itemCount - 1) {
                     Spacer(modifier = Modifier.size(12.dp))
                 }

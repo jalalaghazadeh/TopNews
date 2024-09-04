@@ -1,7 +1,6 @@
 package com.mrjalal.topnews.presentation.common.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -11,33 +10,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray4
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_12
-import com.mrjalal.topnews.presentation.app.ui.theme.Gray_7
 
 @Composable
 fun TopNewsTopBar(
     title: String,
+    modifier: Modifier = Modifier,
     @DrawableRes rightIconId: Int? = null,
     @DrawableRes leftIconId: Int? = null,
     onRightIconClick: (() -> Unit)? = null,
-    onLeftClick: (() -> Unit)? = null,
+    onLeftIconClick: (() -> Unit)? = null,
     backgroundColor: Color = Color.White,
-    iconBackgroundColor: Color = Gray_12
+    iconBackgroundColor: Color = Gray_12,
+    iconTintColor: Color = Gray
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(48.dp)
             .background(backgroundColor)
@@ -45,12 +43,19 @@ fun TopNewsTopBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         rightIconId?.let {
-            Image(
-                painter = painterResource(rightIconId),
-                contentDescription = null,
-                modifier = Modifier
+            TopNewsIcon(
+                iconId = it,
+                modifier = Modifier.size(20.dp),
+                tintColor = iconTintColor,
+                containerModifier = Modifier
                     .size(32.dp)
-                    .clickable { onRightIconClick?.let { onClick -> onClick() } }
+                    .background(
+                        color = iconBackgroundColor,
+                        shape = CircleShape
+                    )
+                    .clickable {
+                        onRightIconClick?.let { onClick -> onClick() }
+                    }
             )
         }
         Box(
@@ -61,9 +66,9 @@ fun TopNewsTopBar(
         }
         leftIconId?.let {
             TopNewsIcon(
-                iconId = leftIconId,
+                iconId = it,
                 modifier = Modifier.size(20.dp),
-                tintColor = Gray,
+                tintColor = iconTintColor,
                 containerModifier = Modifier
                     .size(32.dp)
                     .background(
@@ -71,7 +76,7 @@ fun TopNewsTopBar(
                         shape = CircleShape
                     )
                     .clickable {
-                        onLeftClick?.let { onClick -> onClick() }
+                        onLeftIconClick?.let { onClick -> onClick() }
                     }
             )
         }

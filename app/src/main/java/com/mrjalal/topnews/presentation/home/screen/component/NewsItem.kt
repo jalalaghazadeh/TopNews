@@ -1,5 +1,6 @@
 package com.mrjalal.topnews.presentation.home.screen.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +24,20 @@ import com.mrjalal.topnews.domain.repository.model.NewsUiModel
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_2
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_4
 import com.mrjalal.topnews.presentation.common.component.TopNewsRemoteImage
+import com.mrjalal.topnews.presentation.common.helper.noRippleClickable
 
 @Composable
-fun NewsItem(item: NewsUiModel.NewsItemUiModel) {
+fun NewsItem(
+    item: NewsUiModel.NewsItemUiModel,
+    onItemClick: (String) -> Unit
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .noRippleClickable {
+                Log.d("oio", "NewsItem:> ID: ${item.id.toString()}")
+                onItemClick(item.id.toString())
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         TopNewsRemoteImage(
@@ -74,5 +84,8 @@ fun NewsItem(item: NewsUiModel.NewsItemUiModel) {
 @Preview(showBackground = true)
 @Composable
 private fun NewsItemPrev() {
-    NewsItem(item = NewsUiModel.NewsItemUiModel.PREVIEW)
+    NewsItem(
+        item = NewsUiModel.NewsItemUiModel.PREVIEW,
+        onItemClick = {}
+    )
 }

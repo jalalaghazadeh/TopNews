@@ -21,6 +21,9 @@ interface NewsDao {
             "ORDER BY publishedAt DESC")
     fun getNewsByQuery(queryName: String): Flow<List<NewsItemEntity>>
 
+    @Query("SELECT * FROM news_items WHERE id = :id")
+    fun getNewsById(id:String): Flow<NewsItemEntity>
+
     @Query("SELECT title FROM news_items")
     suspend fun getAllTitles(): List<String>
 

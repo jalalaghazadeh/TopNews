@@ -27,3 +27,6 @@ inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier
 
 @Composable
 fun screenWidthDp() = with(LocalConfiguration.current) { this.screenWidthDp }
+
+@Composable
+fun screenHeightDp() = with(LocalConfiguration.current) { this.screenHeightDp }
