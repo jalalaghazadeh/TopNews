@@ -8,8 +8,7 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.util.DebugLogger
-import com.mrjalal.topnews.domain.repository.NewsSyncScheduler
-import com.mrjalal.topnews.domain.repository.SyncNewsWorker
+import com.mrjalal.topnews.domain.sync.NewsSyncScheduler
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

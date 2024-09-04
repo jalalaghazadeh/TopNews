@@ -9,6 +9,7 @@ import com.mrjalal.topnews.data.dataSource.local.NewsDao
 import com.mrjalal.topnews.data.dataSource.remote.NewsRemoteDataSource
 import com.mrjalal.topnews.domain.repository.NewsRepository
 import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -25,14 +26,7 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNewsById(id: String): Flow<NewsUiModel.NewsItemUiModel> {
-        val res =  newsDao.getNewsById(id).map { it.toUiModel() }
-        Log.d(TAG, "getNewsById: $res")
-
-//        res.collectLatest {
-//            Log.d(TAG, "getNewsById:> res.collectLatest: $it")
-//        }
-
-        return res
+        return newsDao.getNewsById(id).map { it.toUiModel() }
     }
 
     override fun getNews(page: Int, pageSize: Int): Flow<List<NewsUiModel.NewsItemUiModel>> {
@@ -96,6 +90,8 @@ class NewsRepositoryImpl @Inject constructor(
                     hasMorePages = false
                     Log.d(TAG, "Error fetching news for $company: ${it.message}")
                 }
+                // todo: this might not work!
+                delay(1000) // to prevent RateLimit error
             }
         }
     }

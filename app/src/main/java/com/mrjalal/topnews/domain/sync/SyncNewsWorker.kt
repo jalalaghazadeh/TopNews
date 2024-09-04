@@ -1,10 +1,11 @@
-package com.mrjalal.topnews.domain.repository
+package com.mrjalal.topnews.domain.sync
 
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.mrjalal.topnews.domain.repository.NewsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

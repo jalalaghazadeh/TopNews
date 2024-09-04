@@ -1,4 +1,4 @@
-package com.mrjalal.topnews.domain.repository
+package com.mrjalal.topnews.domain.sync
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
