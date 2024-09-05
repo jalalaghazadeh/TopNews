@@ -1,9 +1,7 @@
-package com.mrjalal.topnews.data.dataSource.remote.model
+package com.mrjalal.topnews.data.dataSource.remote.news.model
 
-import com.mrjalal.topnews.data.dataSource.local.entitiy.NewsItemEntity
+import com.mrjalal.topnews.data.dataSource.local.news.entitiy.NewsItemEntity
 import com.mrjalal.topnews.domain.repository.util.Dto
-import com.mrjalal.topnews.domain.repository.util.NewsEntity
-import java.util.UUID
 
 data class NewsDto(
     val articles: List<NewsItemDto>,

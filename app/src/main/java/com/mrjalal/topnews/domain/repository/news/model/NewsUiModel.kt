@@ -1,4 +1,4 @@
-package com.mrjalal.topnews.domain.repository.model
+package com.mrjalal.topnews.domain.repository.news.model
 
 import com.mrjalal.topnews.domain.repository.util.UiModel
 

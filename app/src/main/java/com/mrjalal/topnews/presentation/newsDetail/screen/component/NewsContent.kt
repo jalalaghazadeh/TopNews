@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mrjalal.topnews.R
-import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.presentation.common.component.TopNewsIcon
 
 @Composable

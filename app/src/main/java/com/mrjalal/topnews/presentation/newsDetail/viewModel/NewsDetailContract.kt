@@ -1,6 +1,6 @@
 package com.mrjalal.topnews.presentation.newsDetail.viewModel
 
-import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.presentation.common.helper.UnidirectionalViewModel
 
 interface NewsDetailContract :

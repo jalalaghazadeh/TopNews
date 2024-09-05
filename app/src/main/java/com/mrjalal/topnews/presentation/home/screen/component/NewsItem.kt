@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_2
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_4
 import com.mrjalal.topnews.presentation.common.component.TopNewsRemoteImage

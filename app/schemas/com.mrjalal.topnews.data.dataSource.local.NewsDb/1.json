@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5886750474b275425bf7865df5afcc11",
+    "identityHash": "580cb9c1bf2d841886909cd053891e25",
     "entities": [
       {
         "tableName": "news_items",
@@ -71,12 +71,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "category_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `text` TEXT NOT NULL, `iconLink` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconLink",
+            "columnName": "iconLink",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5886750474b275425bf7865df5afcc11')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '580cb9c1bf2d841886909cd053891e25')"
     ]
   }
 }

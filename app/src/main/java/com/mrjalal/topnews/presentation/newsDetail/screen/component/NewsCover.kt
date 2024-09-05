@@ -19,7 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.presentation.app.ui.theme.Blue_1
 import com.mrjalal.topnews.presentation.common.component.TopNewsRemoteImage
 import com.mrjalal.topnews.presentation.common.helper.screenHeightDp

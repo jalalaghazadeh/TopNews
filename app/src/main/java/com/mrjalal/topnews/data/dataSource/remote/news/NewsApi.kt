@@ -1,6 +1,6 @@
-package com.mrjalal.topnews.data.dataSource.remote
+package com.mrjalal.topnews.data.dataSource.remote.news
 
-import com.mrjalal.topnews.data.dataSource.remote.model.NewsDto
+import com.mrjalal.topnews.data.dataSource.remote.news.model.NewsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

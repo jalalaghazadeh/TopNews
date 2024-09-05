@@ -1,6 +1,7 @@
-package com.mrjalal.topnews.data.dataSource.remote
+package com.mrjalal.topnews.data.dataSource.remote.news
 
-import com.mrjalal.topnews.data.dataSource.remote.model.NewsDto
+import com.mrjalal.topnews.data.dataSource.remote.category.model.CategoryDto
+import com.mrjalal.topnews.data.dataSource.remote.news.model.NewsDto
 import javax.inject.Inject
 
 class NewsRemoteDataSourceImpl @Inject constructor(
@@ -14,5 +15,9 @@ class NewsRemoteDataSourceImpl @Inject constructor(
         page: Int
     ): Result<NewsDto> {
         return runCatching { newsApi.fetchNews(query, fromDate, toDate, sortBy, page) }
+    }
+
+    override suspend fun getCategories(): Result<CategoryDto> {
+        return runCatching { CategoryDto.MOCK }
     }
 }

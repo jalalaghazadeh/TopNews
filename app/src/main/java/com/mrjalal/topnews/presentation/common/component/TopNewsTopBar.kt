@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray4
 import com.mrjalal.topnews.presentation.app.ui.theme.Gray_12
+import com.mrjalal.topnews.presentation.common.helper.noRippleClickable
 
 @Composable
 fun TopNewsTopBar(
@@ -53,7 +54,7 @@ fun TopNewsTopBar(
                         color = iconBackgroundColor,
                         shape = CircleShape
                     )
-                    .clickable {
+                    .noRippleClickable {
                         onRightIconClick?.let { onClick -> onClick() }
                     }
             )
@@ -75,7 +76,7 @@ fun TopNewsTopBar(
                         color = iconBackgroundColor,
                         shape = CircleShape
                     )
-                    .clickable {
+                    .noRippleClickable {
                         onLeftIconClick?.let { onClick -> onClick() }
                     }
             )

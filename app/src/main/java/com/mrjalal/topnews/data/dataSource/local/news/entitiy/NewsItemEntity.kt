@@ -1,8 +1,8 @@
-package com.mrjalal.topnews.data.dataSource.local.entitiy
+package com.mrjalal.topnews.data.dataSource.local.news.entitiy
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mrjalal.topnews.domain.repository.model.NewsUiModel
+import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.domain.repository.util.NewsEntity
 
 @Entity(tableName = "news_items")
