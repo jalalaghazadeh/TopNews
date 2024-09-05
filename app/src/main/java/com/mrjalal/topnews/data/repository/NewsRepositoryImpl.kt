@@ -23,7 +23,6 @@ class NewsRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao,
 ) : NewsRepository {
     override fun getNewsByQuery(queryName: String): Flow<PagingData<NewsUiModel.NewsItemUiModel>> {
-//        return newsDao.getNewsByQuery(queryName).map { list -> list.map { it.toUiModel() } }
         return Pager(
             config = PagingConfig(
                 pageSize = LOCAL_PAGE_SIZE,
@@ -37,22 +36,6 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNewsById(id: String): Flow<NewsUiModel.NewsItemUiModel> {
         return newsDao.getNewsById(id).map { it.toUiModel() }
-    }
-
-    override fun getNews(page: Int, pageSize: Int): Flow<List<NewsUiModel.NewsItemUiModel>> {
-        return newsDao.getNews(page, pageSize).map { list -> list.map { it.toUiModel() } }
-    }
-
-    override fun getNews(): Flow<PagingData<NewsUiModel.NewsItemUiModel>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = LOCAL_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { newsDao.getNewsPagingSource() }
-        ).flow.map { pagingData ->
-            pagingData.map { it.toUiModel() }
-        }
     }
 
     override suspend fun refreshNews() {
