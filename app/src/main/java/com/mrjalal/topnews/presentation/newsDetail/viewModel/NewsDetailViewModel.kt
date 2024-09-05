@@ -3,6 +3,7 @@ package com.mrjalal.topnews.presentation.newsDetail.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrjalal.topnews.domain.repository.news.NewsRepository
+import com.mrjalal.topnews.domain.usecase.general.FormatDateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsDetailViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val formatDateUseCase: FormatDateUseCase
 ) : ViewModel(), NewsDetailContract {
     private val _state = MutableStateFlow(NewsDetailContract.State.EMPTY)
     override val state: StateFlow<NewsDetailContract.State> = _state.asStateFlow()
@@ -37,7 +39,9 @@ class NewsDetailViewModel @Inject constructor(
             newsRepository.getNewsById(id).collect { newsItem ->
                 _state.update {
                     it.copy(
-                        newsItem = newsItem
+                        newsItem = newsItem.copy(
+                            publishedAt = formatDateUseCase(newsItem.publishedAt)
+                        )
                     )
                 }
             }

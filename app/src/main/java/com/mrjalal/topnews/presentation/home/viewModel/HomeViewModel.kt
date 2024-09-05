@@ -4,10 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.mrjalal.topnews.domain.repository.category.CategoryRepository
 import com.mrjalal.topnews.domain.repository.category.model.CategoryItemUiModel
 import com.mrjalal.topnews.domain.repository.news.NewsRepository
 import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
+import com.mrjalal.topnews.domain.usecase.general.FormatDateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -27,7 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val formatDateUseCase: FormatDateUseCase
 ) : ViewModel(), HomeContract {
     private val _state = MutableStateFlow(HomeContract.State.EMPTY)
     override val state: StateFlow<HomeContract.State> = _state.asStateFlow()
@@ -39,8 +42,18 @@ class HomeViewModel @Inject constructor(
         .map { it.selectedCategory?.text ?: "" }
         .distinctUntilChanged()
         .flatMapLatest { query ->
-            newsRepository.getNewsByQuery(query).filterNotNull().cachedIn(viewModelScope)
+            newsRepository.getNewsByQuery(query)
+                .filterNotNull()
+                .map { pagingDate ->
+                    pagingDate.map { newsItem ->
+                        newsItem.copy(
+                            publishedAt = formatDateUseCase(newsItem.publishedAt)
+                        )
+                    }
+                }
+                .cachedIn(viewModelScope)
         }
+
     val categories: Flow<List<CategoryItemUiModel>> = categoryRepository.fetchCategories()
 
     override fun event(event: HomeContract.Event) {
