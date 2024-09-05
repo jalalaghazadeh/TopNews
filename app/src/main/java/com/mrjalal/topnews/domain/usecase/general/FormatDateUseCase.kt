@@ -6,9 +6,13 @@ import javax.inject.Inject
 
 class FormatDateUseCase @Inject constructor() {
     operator fun invoke(isoDate: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        val date = inputFormat.parse(isoDate)
-        return date?.let { outputFormat.format(it) } ?: isoDate
+        try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            val date = inputFormat.parse(isoDate)
+            return date?.let { outputFormat.format(it) } ?: isoDate
+        } catch (ex: Exception) {
+            return isoDate
+        }
     }
 }
