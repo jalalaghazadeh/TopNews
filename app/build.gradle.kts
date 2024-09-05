@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +8,10 @@ plugins {
     id("androidx.room")
     id("dagger.hilt.android.plugin")
 }
+
+val keyStorePropertiesFile: File = rootProject.file("keystore.properties")
+val keyStoreProperties = Properties()
+keyStoreProperties.load(FileInputStream(keyStorePropertiesFile))
 
 android {
     namespace = "com.mrjalal.topnews"
@@ -20,6 +27,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keyStoreProperties["keyAlias"] as String
+            keyPassword = keyStoreProperties["keyPassword"] as String
+            storePassword = keyStoreProperties["storePassword"] as String
+            storeFile = file(keyStoreProperties["storeFile"]!!)
         }
     }
 
