@@ -24,7 +24,7 @@ object NetworkModule {
 
     @Provides
     @ApiKeyQualifier
-    fun provideApiKey() = "2bb254416a4e40beada7ea7604ea0ee6"
+    fun provideApiKey() = "11e840a1b8b24d3e9f07eded2711d497"
 
     @Provides
     fun provideKotlinJsonAdapterFactory() = KotlinJsonAdapterFactory()
