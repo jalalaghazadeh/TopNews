@@ -11,6 +11,7 @@ import com.mrjalal.topnews.domain.repository.news.NewsRepository
 import com.mrjalal.topnews.domain.repository.news.model.NewsUiModel
 import com.mrjalal.topnews.domain.usecase.general.FormatDateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -54,7 +55,7 @@ class HomeViewModel @Inject constructor(
                 .cachedIn(viewModelScope)
         }
 
-    val categories: Flow<List<CategoryItemUiModel>> = categoryRepository.fetchCategories()
+    val categories: Flow<ImmutableList<CategoryItemUiModel>> = categoryRepository.fetchCategories()
 
     override fun event(event: HomeContract.Event) {
         when (event) {

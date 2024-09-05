@@ -65,6 +65,8 @@ import com.mrjalal.topnews.presentation.common.helper.use
 import com.mrjalal.topnews.presentation.home.screen.component.NewsItem
 import com.mrjalal.topnews.presentation.home.viewModel.HomeContract
 import com.mrjalal.topnews.presentation.home.viewModel.HomeViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +77,7 @@ fun HomeRoute(
 ) {
     TopNewsStatusBar()
 
-    val (state, effect, dispatcher) = use(viewModel)
+    val (state, _, dispatcher) = use(viewModel)
     val allNews = viewModel.allNews.collectAsLazyPagingItems()
     val categories by viewModel.categories.collectAsStateWithLifecycle(initialValue = emptyList())
 
@@ -97,7 +99,7 @@ fun HomeRoute(
         HomeScreen(
             allNews = allNews,
             showFilterSheet = state.showFilterSheet,
-            categories = categories,
+            categories = categories.toImmutableList(),
             selectedCategory = state.selectedCategory,
             sheetState = filterSheetState,
             onNavigateToNewsDetail = onNavigateToNewsDetail,
@@ -121,7 +123,7 @@ fun HomeRoute(
 fun HomeScreen(
     allNews: LazyPagingItems<NewsUiModel.NewsItemUiModel>,
     showFilterSheet: Boolean,
-    categories: List<CategoryItemUiModel>,
+    categories: ImmutableList<CategoryItemUiModel>,
     selectedCategory: CategoryItemUiModel?,
     sheetState: SheetState,
     onNavigateToNewsDetail: (String) -> Unit,

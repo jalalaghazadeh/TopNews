@@ -76,6 +76,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
+    // immutable collection
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.1")
 
@@ -119,7 +122,6 @@ dependencies {
 
     // Shimmer
     implementation("com.valentinilk.shimmer:compose-shimmer:1.0.5")
-
 }
 
 kapt {

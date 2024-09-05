@@ -1,12 +1,17 @@
 package com.mrjalal.topnews.domain.repository.news.model
 
+import androidx.compose.runtime.Stable
 import com.mrjalal.topnews.domain.repository.util.UiModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
+@Stable
 data class NewsUiModel(
-    val articles: List<NewsItemUiModel>,
+    val articles: ImmutableList<NewsItemUiModel>,
     val status: String,
     val totalResults: Int
 ) : UiModel {
+    @Stable
     data class NewsItemUiModel(
         val id: Int?,
         val author: String?,
@@ -37,7 +42,7 @@ data class NewsUiModel(
         val PREVIEW = NewsUiModel(
             status = "SUCCESS",
             totalResults = 10,
-            articles = listOf(
+            articles = persistentListOf(
                 NewsItemUiModel(
                     id = 0,
                     author = "Theron Mohamed",
