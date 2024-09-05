@@ -150,39 +150,43 @@ fun HomeScreen(
             ,
             contentPadding = PaddingValues(start = 20.dp, top = 20.dp, end = 20.dp)
         ) {
-            stickyHeader {
-                selectedCategory?.let {
-                    FlowRow(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                    ) {
-                        CategoryTag(
-                            item = it,
-                            onDismiss = onDismissFilters
-                        )
+            // Show loading state when refreshing
+            if (allNews.loadState.refresh is LoadState.Loading) {
+                item {
+                    TopNewsShimmerLoading()
+                }
+            } else {
+                stickyHeader {
+                    selectedCategory?.let {
+                        FlowRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                        ) {
+                            CategoryTag(
+                                item = it,
+                                onDismiss = onDismissFilters
+                            )
+                        }
                     }
                 }
-            }
-            items(
-                count = allNews.itemCount,
-                key = { "${allNews[it]?.id}" }
-            ) { index ->
-                NewsItem(
-                    item = allNews[index]!!,
-                    onItemClick = onNavigateToNewsDetail
-                )
-                if (index < allNews.itemCount - 1) {
-                    Spacer(modifier = Modifier.size(12.dp))
-                }
-            }
-
-            allNews.apply {
-                when {
-                    loadState.refresh is LoadState.Loading -> {
-                        item { TopNewsShimmerLoading() }
+                items(
+                    count = allNews.itemCount,
+                    key = { "${allNews[it]?.id}" }
+                ) { index ->
+                    NewsItem(
+                        item = allNews[index]!!,
+                        onItemClick = onNavigateToNewsDetail
+                    )
+                    if (index < allNews.itemCount - 1) {
+                        Spacer(modifier = Modifier.size(12.dp))
                     }
+                }
 
-                    loadState.append is LoadState.Loading -> {
-                        item { TopNewsCircleLoading() }
+                // Show loading at the end of the list when more data is being appended
+                if (allNews.loadState.append is LoadState.Loading) {
+                    item {
+                        TopNewsCircleLoading()
                     }
                 }
             }
